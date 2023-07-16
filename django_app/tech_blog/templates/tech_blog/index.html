@@ -1,0 +1,44 @@
+{% extends 'tech_blog/base.html' %}
+
+{% block content %}
+<ul>
+    {% if request.user.is_authenticated %}
+        {% for m in auth_menu %}
+         <li class="menu"><a href="{{m.url_name}}" >{{m.title}}</a></li>
+        {% endfor %}
+    <li class="name">Вы вошли как: {{user.username}}</li>
+    {% else %}
+        {% for m in no_auth_menu %}
+         <li class="menu"><a href="{{m.url_name}}" >{{m.title}}</a></li>
+        {% endfor %}
+    {% endif %}
+ </ul>
+
+    <ul>
+        {% if c_selected == 0 %}
+            <li class="selected">Все категории</li>
+        {% else %}
+            <li><a href="{% url 'home' %}">Все категории</a> </li>
+        {% endif %}
+
+    {% for c in cats %}
+        {% if c.pk == c_selected %}
+            <li class="selected">{{c.name}}</li>
+        {% else %}
+            <li><a href="{{c.get_url}}">{{ c.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <ul class="list_articles">
+        {% for art in articles%}
+        <h3>Категория: {{art.category}}</h3>
+        <h4>Наименование: {{art.name}}</h4>
+        <h4>Дата создания: {{art.time_create|date:"d M  Y H:i:s"}}</h4>
+        <p>{{art.text|linebreaks|truncatewords:50}}</p>
+        <p class="read_article"><a href="{% url 'show_article' art.pk %}">Читать полностью</a> </p>
+        <hr>
+        {% endfor %}
+    </ul>
+
+{% endblock%}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+{% block main_menu %}
+    <h3><a href="/">Вернуться на главную</a> </h3>
+{% endblock main_menu %}
+</head>
+
+{% if messages %}
+        	{% for message in messages %}
+          	<div class="alert alert-{{ message.tags }}">
+            	{{ message }}
+          	</div>
+        	{% endfor %}
+{% endif %}
+
+<body>
+{% block content %}
+{% endblock%}
+</body>
+</html>
